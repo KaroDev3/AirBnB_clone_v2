@@ -2,13 +2,13 @@
 """ 1. Compress before sending
 script that generates a .tgz archive from thecontents of the web_static
 """
-from fabric.api import *
+from fabric.api import local
 import datetime
 
 
 def do_pack():
-    """ """
-    local("mkdir -p ./versions")
+    """ Fabric script that generates a .tgz archive from the contents of the web_static """
+    local("mkdir -p versions")
     date = datetime.datetime.now()
     date_format = date.strftime("%Y%m%d%H%M%S")
     new_archive = local(
