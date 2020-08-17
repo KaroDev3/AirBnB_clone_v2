@@ -7,7 +7,8 @@ import datetime
 
 
 def do_pack():
-    """ Fabric script that generates a .tgz archive from the contents of the web_static """
+    """ Fabric script that generates a .tgz archive from
+    the contents of the web_static """
     local("mkdir -p versions")
     date = datetime.datetime.now()
     date_format = date.strftime("%Y%m%d%H%M%S")
