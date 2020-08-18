@@ -17,24 +17,30 @@ def do_deploy(archive_path):
         return False
 
     """ send archive """
-    remote_path = put(archive_path, "/tmp/")
-    if remote_path.failed:
+    result = put(archive_path, "/tmp/")
+    if result.failed:
         return False
+
+    filename = archive_path.split('/')
+    filename = filename[len(filename) - 1].split('.')[0]
+    remote_path = "/data/".apend(filename)
 
     """ uncompress the archive """
     run("mkdir -p /data/web_static/releases/")
     result = run(
-        "tar -xzf {} -C /data/web_static/releases/".format(remote_path.output))
+        "tar -xzf {} -C /data/web_static/releases/".format(remote_path))
     if result.failed:
         return False
 
     """ delete the archive """
-    result = run("rm {}".format(remote_path.output))
+    result = run("rm {}".format(remote_path))
     if result.failed:
         return False
 
+    """ softlink to new deploy """
     run("rm /data/web_static/current")
     result = run(
-        "ln -sf {} /data/web_static/current".format(remote_path.output))
+        "ln -sf /data/web_static/releases/{}\
+             /data/web_static/current".format(filename))
 
     return True
