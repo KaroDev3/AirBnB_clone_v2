@@ -5,8 +5,6 @@ using the function do_deploy
 """
 from fabric.operations import local, run, put, env
 from os import path
-
-
 env.hosts = ['35.237.202.116', '34.73.195.113']
 env.user = 'ubuntu'
 
@@ -23,7 +21,7 @@ def do_deploy(archive_path):
     # save names
     arch = archive_path.split('/')[1].split('.')[0]
     archDir = "/data/web_static/releases/" + arch
-    remote_path = "/temp/{}".format(archive_path.split('/')[1])
+    remote_path = "/tmp/{}".format(archive_path.split('/')[1])
 
     # make dir
     run("mkdir -p {}".format(archDir))
@@ -44,7 +42,7 @@ def do_deploy(archive_path):
     run("rm -rf {}/web_static".format(archDir))
 
     # softlink to new deploy
-    run("rm - rf /data/web_static/current")
+    run("rm -rf /data/web_static/current")
 
     run("ln -s {}/ /data/web_static/current".format(archDir))
 
