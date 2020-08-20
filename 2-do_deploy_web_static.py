@@ -11,36 +11,56 @@ def do_deploy(archive_path):
     """ Deploy archive """
 
     env.user = 'ubuntu'
-    env.hosts = ['localhost']
+    env.hosts = ['35.237.202.116', '34.73.195.113']
 
     if not path.exists(archive_path):
         return False
 
-    """ send archive """
+    # send archive
     result = put(archive_path, "/tmp/")
     if result.failed:
         return False
 
-    filename = archive_path.split('/')
-    filename = filename[len(filename) - 1].split('.')[0]
-    remote_path = "/data/".apend(filename)
+    # save names
+    arch = archive_path.split('/')[1].split('.')[0]
+    archDir = "/data/web_static/releases/".apend(arch)
+    remote_path = "/temp/{}".format(archive_path.split('/')[1])
 
-    """ uncompress the archive """
-    run("mkdir -p /data/web_static/releases/")
+    # make dir
+    run("mkdir -p /data/web_static/releases/{}".format(arch))
+
+    # uncompress the archive
+    # -x: Extract files from an archive
+    # -z: Uncompress whit gzip command
+    # -f: use archive file or device ARCHIVE
+    # -C: Change to directory.
     result = run(
-        "tar -xzf {} -C /data/web_static/releases/".format(remote_path))
+        "tar -xzf {} -C {}".format(remote_path, archDir))
     if result.failed:
         return False
 
-    """ delete the archive """
+    # delete the archive
     result = run("rm {}".format(remote_path))
     if result.failed:
         return False
 
-    """ softlink to new deploy """
-    run("rm /data/web_static/current")
+    # move files
+    result = run("mv {}/web_static/* {}".format(archDir, archDir))
+    if result.failed:
+        return False
+
+    result = run("rm -rf {}/web_static".format(archDir))
+    if result.failed:
+        return False
+
+    # softlink to new deploy
+    result = run("rm - rf / data/web_static/current")
+    if result.failed:
+        return False
+
     result = run(
-        "ln -sf /data/web_static/releases/{}\
-             /data/web_static/current".format(filename))
+        "ln -sf {} /data/web_static/current".format(archDir))
+    if result.failed:
+        return False
 
     return True
