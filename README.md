@@ -140,3 +140,16 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 (hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 ```
 <br>
+
+# 0x04. AirBnB clone - Web framework
+## Learning Objectives
+
+- What is a Web Framework
+- How to build a web framework with Flask
+- How to define routes in Flask
+- What is a route
+- How to handle variables in a route
+- What is a template
+- How to create a HTML response in Flask by using a template
+- How to create a dynamic template (loops, conditions…)
+- How to display in HTML data from a MySQL database
