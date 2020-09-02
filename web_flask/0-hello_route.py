@@ -10,8 +10,8 @@ from web_flask import app
 
 @app.route('/', strict_slashes=False)
 def hello():
-	"""response text"""
-	return 'Hello HBNB!'
+    """response text"""
+    return 'Hello HBNB!'
 
 
 if __name__ == "__main__":
